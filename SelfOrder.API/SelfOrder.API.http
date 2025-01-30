@@ -1,0 +1,6 @@
+@SelfOrder.API_HostAddress = http://localhost:5264
+
+GET {{SelfOrder.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
