@@ -1,3 +1,5 @@
+using SelfOrder.API.Models.Domain;
+
 namespace SelfOrder.API.Data;
 
 public class SelfOrderDbContext : DbContext

@@ -1,3 +1,5 @@
+using SelfOrder.API.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,6 +13,10 @@ builder.Services.AddDbContext<SelfOrderDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("SelfOrderConnectionString"));
 });
+
+builder.Services.AddScoped<IMenuRepository, MenuRepository>();
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 
