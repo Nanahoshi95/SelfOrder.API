@@ -21,4 +21,24 @@ public class MenuRepository(SelfOrderDbContext _dbContext) : IMenuRepository
     {
         throw new NotImplementedException();
     }
+
+    public async Task<Food?> UpdateAsync(Food food)
+    {
+        var existingFood = await _dbContext.Foods.FindAsync(food.Id);
+
+        if (existingFood == null)
+        {
+            return null;
+        }
+
+        existingFood.Name = food.Name;
+        existingFood.Price = food.Price;
+        existingFood.ImageUrl = food.ImageUrl;
+        existingFood.MenuId = food.MenuId;
+        existingFood.SubMenuId = food.SubMenuId;
+
+        await _dbContext.SaveChangesAsync();
+
+        return existingFood;
+    }
 }

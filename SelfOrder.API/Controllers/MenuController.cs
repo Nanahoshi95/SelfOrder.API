@@ -34,73 +34,30 @@ namespace SelfOrder.API.Controllers
             return Ok(foodDTO);
         }
 
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> UpdateFoodAsync([FromRoute] int id, [FromBody] Models.DTO.UpdateFoodRequest updateFoodRequest)
+        {
+            var foodDomain = new Models.Domain.Food
+            {
+                Id = id,
+                Name = updateFoodRequest.Name,
+                Price = updateFoodRequest.Price,
+                ImageUrl = updateFoodRequest.ImageUrl,
+                MenuId = updateFoodRequest.MenuId,
+                SubMenuId = updateFoodRequest.SubMenuId
+            };
 
+            foodDomain = await _menuRepository.UpdateAsync(foodDomain);
 
+            if (foodDomain == null)
+            {
+                return NotFound();
+            }
 
-        // [HttpGet]
-        // [Authorize(Roles = "reader")]
-        // public async Task<IActionResult> GetAllWalksAsync()
-        // {
-        //     // Fetch data from database - domain walks
-        //     var walksDomain = await walkRepository.GetAllAsync();
+            var foodDTO = _mapper.Map<Models.DTO.Food>(foodDomain);
 
-        //     // Convert domain walks to DTO Walks
-        //     var walksDTO = mapper.Map<List<Models.DTO.Walk>>(walksDomain);
-
-        //     // Return response
-        //     return Ok(walksDTO);
-        // }
-
-        // [HttpGet]
-        // [Route("{id:guid}")]
-        // [ActionName("GetWalkAsync")]
-        // [Authorize(Roles = "reader")]
-        // public async Task<IActionResult> GetWalkAsync(Guid id)
-        // {
-        //     // Get Walk Domain object from database
-        //     var walkDomin = await walkRepository.GetAsync(id);
-
-        //     // Convert Domain object to DTO
-        //     var walkDTO = mapper.Map<Models.DTO.Walk>(walkDomin);
-
-        //     // Return response
-        //     return Ok(walkDTO);
-        // }
-
-        // [HttpPost]
-        // [Authorize(Roles = "writer")]
-        // public async Task<IActionResult> AddWalkAsync([FromBody] Models.DTO.AddWalkRequest addWalkRequest)
-        // {
-        //     // Validate the incoming request
-        //     if (!(await ValidateAddWalkAsync(addWalkRequest)))
-        //     {
-        //         return BadRequest(ModelState);
-        //     }
-
-        //     // Convert DTO to Domain Object
-        //     var walkDomain = new Models.Domain.Walk
-        //     {
-        //         Length = addWalkRequest.Length,
-        //         Name = addWalkRequest.Name,
-        //         RegionId = addWalkRequest.RegionId,
-        //         WalkDifficultyId = addWalkRequest.WalkDifficultyId
-        //     };
-
-        //     // Pass domain object to Repository to persist this
-        //     walkDomain = await walkRepository.AddAsync(walkDomain);
-
-        //     // Convert the Domain object back to DTO
-        //     var walkDTO = new Models.DTO.Walk
-        //     {
-        //         Id = walkDomain.Id,
-        //         Length = walkDomain.Length,
-        //         Name = walkDomain.Name,
-        //         RegionId = walkDomain.RegionId,
-        //         WalkDifficultyId = walkDomain.WalkDifficultyId
-        //     };
-
-        //     // Send DTO response back to Client
-        //     return CreatedAtAction(nameof(GetWalkAsync), new { id = walkDTO.Id }, walkDTO);
-        // }
+            return Ok(foodDTO);
+        }
     }
 }

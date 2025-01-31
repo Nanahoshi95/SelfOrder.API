@@ -9,4 +9,6 @@ public interface IMenuRepository
     Task<Food> GetAsync(int menuCategory, int subMenuCategory);
 
     Task<Food> AddAsync(Food food);
+
+    Task<Food?> UpdateAsync(Food food);
 }

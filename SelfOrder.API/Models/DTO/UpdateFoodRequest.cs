@@ -1,10 +1,10 @@
+using System;
 using SelfOrder.API.Models.Enums;
 
-namespace SelfOrder.API.Models.Domain;
+namespace SelfOrder.API.Models.DTO;
 
-public class Food
+public class UpdateFoodRequest
 {
-    public int Id { get; set; }
     public string Name { get; set; } = null!;
     public int Price { get; set; }
     public string ImageUrl { get; set; } = null!;

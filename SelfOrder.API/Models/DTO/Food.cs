@@ -1,3 +1,5 @@
+using SelfOrder.API.Models.Enums;
+
 namespace SelfOrder.API.Models.DTO;
 
 public class Food
